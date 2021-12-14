@@ -1,0 +1,58 @@
+// circuit
+
+/*
+Arduino        SR04
+5V        ---    VCC
+A0        ---    Trig
+A1        ---    Echo
+GND        ---    GND
+*/
+
+// pin setting
+
+#define TrigPin A0    
+// __|^|_____________
+// 10us or more HITH SIGNAL will drive it work for one time
+
+#define EchoPin A1    
+// ______|^^^^^^^^|__ 
+// PULSE WIDTH stand for distance(the time of ultrasound transmit, both go and back)
+// pulse width WILL NOT long than 38ms, it means timeout
+// Distance = Speed x Time
+// Speed of sound ~= 340m/s = 0.340mm/us
+
+int count = 0;
+
+long duration;
+// PULSE WIDTH
+
+void setup() {
+    // set Serial communication
+    Serial.begin(115200);
+    // set pin mode
+    pinMode(TrigPin, OUTPUT);
+    pinMode(EchoPin, INPUT);
+    // init pin
+    digitalWrite(TrigPin, LOW);
+    delay(1);
+}
+
+void loop() {
+    Serial.println(count++);
+    Serial.println(getDistance());
+    Serial.println("");
+    Serial.println("");
+    delay(1000);
+}
+
+long getDistance() {
+    // trig
+    digitalWrite(TrigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TrigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TrigPin, LOW);
+    // echo
+    duration = pulseIn(EchoPin, HIGH);     // unit: us
+    return duration * 0.34029 / 2;         // unit: mm
+}
