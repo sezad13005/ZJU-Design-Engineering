@@ -1,0 +1,23 @@
+int LED=13;
+int Sw=7;
+int val=0;
+void setup ()
+{
+pinMode(LED,OUTPUT);
+pinMode(Sw,INPUT);
+}
+void loop()
+{
+  val= digitalRead(Sw);
+  if(val==HIGH)//val=0 is LOW, val=1 is HIGH
+  {digitalWrite(LED,HIGH);
+   delay(3000);
+   digitalWrite(LED,LOW);
+    delay(1000);
+   digitalWrite(LED,HIGH);
+   delay(3000);
+  }
+  else
+  { digitalWrite(LED,LOW);
+     delay(1000);}
+}
